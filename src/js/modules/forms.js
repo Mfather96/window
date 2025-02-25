@@ -1,8 +1,9 @@
-const formsModule = () => {
+import numInputsValidator from "./numInputsValidator";
+
+const formsModule = (state) => {
 
     const forms = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input'),
-          phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+          inputs = document.querySelectorAll('input');
 
     const message = {
         loading: 'Загрузка...',
@@ -10,11 +11,7 @@ const formsModule = () => {
         failure: 'Приносим извинения, но наш сервер не работает'
     }
 
-    phoneInputs.forEach(input => {
-        input.addEventListener('input', () => {
-            input.value = input.value.replace(/\D/g, "");
-        })
-    })
+    numInputsValidator('input[name="user_phone"]');
 
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
@@ -25,6 +22,11 @@ const formsModule = () => {
 
             form.appendChild(statusMessage);
             const formData = new FormData(form);
+            if (form.getAttribute('data-state') === 'end') {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
 
             postData('assets/server.php', formData)
                 .then(response => {
