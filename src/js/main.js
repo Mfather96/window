@@ -3,12 +3,16 @@ import modals from './modules/modals';
 import tabs from './modules/tabs';
 import formsModule from './modules/forms';
 import changeModalState from "./modules/changeModalState";
+import timer from './modules/timer';
+import images from './modules/images';
 
 window.addEventListener('DOMContentLoaded', () => {
     const modalState = {};
 
     changeModalState(modalState);
 
+    const deadline = '2025-04-08';
+    timer('.container1', deadline);
     modals();
 
     tabs('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
@@ -16,4 +20,5 @@ window.addEventListener('DOMContentLoaded', () => {
     tabs('.balcon_icons', '.balcon_icons_img', '.big_img > img', 'do_image_more', 'inline-block');
 
     formsModule(modalState);
+    images();
 })
