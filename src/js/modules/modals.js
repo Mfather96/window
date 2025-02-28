@@ -1,4 +1,14 @@
 const modals = () => {
+    const div = document.createElement('div');
+    div.style.cssText = `
+        width: 100px;
+        height: 100px;
+        overflow-y: scroll;
+        visibility: hidden;
+    `
+    document.body.appendChild(div);
+    const scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
 
     function bindModal(triggerSelector, modalSelector, modalCloseSelector, closeByClickOverlay = true) {
         const triggers = document.querySelectorAll(triggerSelector),
@@ -16,6 +26,7 @@ const modals = () => {
 
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                document.body.style.marginRight = `${scrollWidth}px`;
             })
         })
 
@@ -23,6 +34,7 @@ const modals = () => {
             windows.forEach(window => window.style.display = 'none');
             modal.style.display = 'none';
             document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
         })
 
         modal.addEventListener('click', (e) => {
@@ -31,6 +43,7 @@ const modals = () => {
 
                 modal.style.display = 'none';
                 document.body.style.overflow = '';
+                document.body.style.marginRight = `0px`;
             }
         })
     }
